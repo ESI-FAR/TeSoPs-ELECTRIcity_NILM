@@ -99,7 +99,7 @@ class UK_Dale_Parser:
                     entire_data = entire_data.reset_index(drop=True)
             else:
                 entire_data = entire_data.append(house_data, ignore_index=True)
-                
+
         entire_data                  = entire_data.dropna().copy()
         entire_data                  = entire_data[entire_data['aggregate'] > 0] #remove negative values (possible mistakes)
         entire_data[entire_data < 5] = 0 #remove very low values
