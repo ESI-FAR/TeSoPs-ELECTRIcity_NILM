@@ -1,9 +1,8 @@
 import numpy        as np
 import pandas       as pd
-from   pathlib      import Path
 from   collections  import defaultdict
-from   NILM_Dataset import *
-from   Pretrain_Dataset import *
+from   NILM_Dataset import NILMDataset
+from   Pretrain_Dataset import Pretrain_Dataset
 
 
 class Redd_Parser:
@@ -48,13 +47,13 @@ class Redd_Parser:
         for house_id in self.house_indicies:
             assert house_id in [1, 2, 3, 4, 5, 6]
 
-            directory = Path(self.data_location) 
+            directory = self.data_location
 
             for house_id in self.house_indicies:
-                house_folder = directory.joinpath('house_' + str(house_id))
-                house_label  = pd.read_csv(house_folder.joinpath('labels.dat'),    sep=' ', header=None)
-                main_1       = pd.read_csv(house_folder.joinpath('channel_1.dat'), sep=' ', header=None)
-                main_2       = pd.read_csv(house_folder.joinpath('channel_2.dat'), sep=' ', header=None)
+                house_folder = directory / f'house_{house_id}'
+                house_label  = pd.read_csv(house_folder / 'labels.dat',    sep=' ', header=None)
+                main_1       = pd.read_csv(house_folder / 'channel_1.dat', sep=' ', header=None)
+                main_2       = pd.read_csv(house_folder / 'channel_2.dat', sep=' ', header=None)
                 
                 house_data            = pd.merge(main_1, main_2, how='inner', on=0)
                 house_data.iloc[:, 1] = house_data.iloc[:,1] + house_data.iloc[:,2]
@@ -81,11 +80,11 @@ class Redd_Parser:
                         temp_data            = house_data.copy().iloc[:, :2]
                         temp_data.iloc[:, 1] = temp_values
                     else:
-                        temp_data = pd.read_csv(house_folder.joinpath('channel_' + str(app_index_dict[appliance][0]) + '.dat'), sep=' ', header=None)
+                        temp_data = pd.read_csv(house_folder / f'channel_{app_index_dict[appliance][0]}.dat', sep=' ', header=None)
 
                     if len(app_index_dict[appliance]) > 1:
                         for idx in app_index_dict[appliance][1:]:
-                            temp_data_           = pd.read_csv(house_folder.joinpath('channel_' + str(idx) + '.dat'), sep=' ', header=None)
+                            temp_data_           = pd.read_csv(house_folder / f'channel_{idx}.dat', sep=' ', header=None)
                             temp_data            = pd.merge(temp_data, temp_data_, how='inner', on=0)
                             temp_data.iloc[:, 1] = temp_data.iloc[:,1] + temp_data.iloc[:, 2]
                             temp_data            = temp_data.iloc[:, 0: 2]
@@ -182,4 +181,4 @@ class Redd_Parser:
                                    self.window_stride,
                                    mask_prob=mask_prob
                                    )
-        return train, val        
+        return train, val

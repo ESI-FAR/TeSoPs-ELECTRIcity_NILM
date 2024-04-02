@@ -1,7 +1,5 @@
 import torch
 import pandas as pd
-import plotly.express as px
-import plotly.io as pio
 
 from types import SimpleNamespace
 

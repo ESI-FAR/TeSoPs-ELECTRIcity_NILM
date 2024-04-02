@@ -1,15 +1,13 @@
-import os
-import torch
 import json
-import numpy               as np
+import torch
 import torch.optim         as optim
 import torch.nn.functional as F
+import numpy as np
 
 from   tqdm                import tqdm
 from   torch               import nn
-from   pathlib             import Path
-from   NILM_Dataloader     import *
-from   metrics             import *
+from   NILM_Dataloader     import NILMDataloader
+from   metrics             import regression_errors, acc_precision_recall_f1_score
 
 class Trainer:
     def __init__(self,args,ds_parser,model):
@@ -19,7 +17,7 @@ class Trainer:
         self.pretrain_num_epochs = args.pretrain_num_epochs
         self.num_epochs          = args.num_epochs
         self.model               = model.to(args.device)
-        self.export_root         = Path(args.export_root).joinpath(args.dataset_code).joinpath(args.appliance_names[0])
+        self.export_root         = args.export_root / args.dataset_code / args.appliance_names[0]
         self.best_model_epoch    = None
 
         self.cutoff      = torch.tensor(args.cutoff[args.appliance_names[0]]    ).to(self.device)
@@ -248,10 +246,9 @@ class Trainer:
         return mre,mae,acc, precision,recall, f1
 
     def _save_state_dict(self):
-        if not os.path.exists(self.export_root):
-            os.makedirs(self.export_root)
+        self.export_root.mkdir(parents=True, exist_ok=True)
         print('Saving best model...')
-        torch.save(self.model.state_dict(), self.export_root.joinpath('best_acc_model.pth'))
+        torch.save(self.model.state_dict(), self.export_root / 'best_acc_model.pth')
 
     def update_metrics_dict(self,mae,mre,acc,precision,recall,f1, mode = 'val'):
         if mode=='train':
@@ -313,22 +310,20 @@ class Trainer:
             raise ValueError
 
     def _save_state_dict(self):
-        if not os.path.exists(self.export_root):
-            os.makedirs(self.export_root)
+        self.export_root.mkdir(parents=True, exist_ok=True)
         print('Saving best model...')
-        torch.save(self.model.state_dict(), self.export_root.joinpath('best_acc_model.pth'))
+        torch.save(self.model.state_dict(), self.export_root / 'best_acc_model.pth')
 
     def _load_best_model(self, map_location):
         try:
-            self.model.load_state_dict(torch.load(self.export_root.joinpath('best_acc_model.pth'), map_location=map_location))
+            self.model.load_state_dict(torch.load(self.export_root / 'best_acc_model.pth', map_location=map_location))
             self.model.to(self.device)
         except:
             print('Failed to load best model, continue testing with current model...')
     
     def _save_result(self,data,filename):
-        if not os.path.exists(self.export_root):
-            os.makedirs(self.export_root)
-        filepath = Path(self.export_root).joinpath(filename)
+        self.export_root.mkdir(parents=True, exist_ok=True)
+        filepath = self.export_root / filename
         with filepath.open('w') as f:
             json.dump(data, f, indent=2)
 
