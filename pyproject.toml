@@ -1,9 +1,10 @@
 [project]
-name = ""
-version = ""
-description = ""
+name = "TeSoPs-ELECTRIcity"
+version = "0.0.1"
+description = "Load disaggregation of household power consumption"
 authors = [
     {name = "Ole Mussmann", email = "gitlab+account@ole.mn"},
+    {name = "Sander van Rijn", email = "mail@svrijn.nl"},
 ]
 dependencies = [
     "torch>=2.0.1",
