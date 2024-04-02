@@ -10,12 +10,14 @@
     in {
       devShells.default = pkgs.mkShell rec {
         packages = with pkgs; [
+          py.bokeh
           py.jupyterlab
           py.pandas
           py.pytorch
           py.scikit-learn
           py.tensorboard
           py.tqdm
+          py.widgetsnbextension
 
           # plotting
           py.plotly
