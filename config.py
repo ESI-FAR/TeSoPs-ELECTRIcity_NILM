@@ -2,14 +2,16 @@ import argparse
 import torch 
 import numpy as np
 import random
+from pyprojroot import here
+
 
 def get_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--redd_location',      type = str, default = None)
-    parser.add_argument('--ukdale_location',    type = str, default = None)
-    parser.add_argument('--refit_location',     type = str, default = None)
-    parser.add_argument('--export_root',        type = str, default = 'results')
 
+    parser.add_argument('--redd_location',      type = here, default = here('data/REDD'))
+    parser.add_argument('--ukdale_location',    type = here, default = here('data/UK_Dale'))
+    parser.add_argument('--refit_location',     type = here, default = here('data/Refit'))
+    parser.add_argument('--export_root',        type = here, default = here('results'))
 
     parser.add_argument('--seed',               type = int,   default = 0)
     parser.add_argument('--device',             type = str,   default = 'cpu' ,    choices=['cpu', 'cuda'])
@@ -36,7 +38,6 @@ def get_args():
     parser.add_argument('--validation_size',     type = float, default = 0.1)
     parser.add_argument('--batch_size',          type = int,   default = 64)
 
-
     parser.add_argument('--output_size',         type = int,   default = 1)
     parser.add_argument('--drop_out',            type = float, default = 0.1)
     parser.add_argument('--hidden',              type = int,   default = 256)
@@ -49,7 +50,6 @@ def get_args():
     parser.add_argument('--num_epochs',          type = int,   default = 90)
     parser.add_argument('--tau',                 type = float, default = 0.1)
 
-
     parser.add_argument('--optimizer',           type = str,   default = 'adam',    choices=['sgd', 'adam', 'adamw'])
     parser.add_argument('--lr',                  type = float, default = 1e-4)
     parser.add_argument('--enable_lr_schedule',  type = bool,  default = False)
@@ -57,16 +57,7 @@ def get_args():
     parser.add_argument('--momentum',            type = float, default = None)
     parser.add_argument('--decay_step',          type = int,   default = 100)
 
-
-
-
-    
     args = parser.parse_args()
-
-    args.ukdale_location = 'data/UK_Dale'
-    args.redd_location   = 'data/REDD'
-    args.refit_location  = 'data/Refit'
-
 
     args = update_preprocessing_parameters(args)
     if torch.cuda.is_available():

@@ -2,14 +2,14 @@ import torch
 torch.set_default_tensor_type(torch.DoubleTensor)
 from torch.utils.tensorboard import SummaryWriter
 
-# import argparse
-from   config            import *
-from   UKDALE_Parser     import *
-from   REDD_Parser       import *
-from   Refit_Parser      import *
-from   Electricity_model import *
-from   NILM_Dataloader   import *
-from   Trainer           import *
+import os
+from   config            import get_args, setup_seed
+from   UKDALE_Parser     import UK_Dale_Parser
+from   REDD_Parser       import Redd_Parser
+from   Refit_Parser      import Refit_Parser
+from   Electricity_model import ELECTRICITY
+from   NILM_Dataloader   import NILMDataloader
+from   Trainer           import Trainer
 from   time              import time
 import pickle            as pkl
 
@@ -41,7 +41,7 @@ if __name__ == "__main__":
     start_time = time()
     if args.num_epochs > 0:
         try:
-            model.load_state_dict(torch.load(os.path.join(trainer.export_root, 'best_acc_model.pth'), map_location='cpu'))
+            model.load_state_dict(torch.load(trainer.export_root / 'best_acc_model.pth', map_location='cpu'))
             print('Successfully loaded previous model, continue training...')
         except FileNotFoundError:
             print('Failed to load old model, continue training new model...')
@@ -53,7 +53,7 @@ if __name__ == "__main__":
     end_time = time()
 
     training_time = end_time-start_time
-    print("Total Training Time: " + str(training_time/60) + "minutes")
+    print(f"Total Training Time: {training_time/60} minutes")
 
     #Testing Loop
     args.validation_size = 1.
@@ -97,6 +97,5 @@ if __name__ == "__main__":
     results['status_curve']  = trainer.status_curve
     results['s_pred_curve']  = trainer.s_pred_curve
 
-    fname = trainer.export_root.joinpath('results.pkl')
-    pkl.dump(results,open( fname, "wb" )) 
-
+    fname = trainer.export_root / 'results.pkl'
+    pkl.dump(results, open(fname, "wb"))

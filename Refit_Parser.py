@@ -1,17 +1,16 @@
-import os
 import numpy  as np
 import pandas as pd
-from pathlib import Path
-from   NILM_Dataset     import *
-from   Pretrain_Dataset import *
+from   NILM_Dataset     import NILMDataset
+from   Pretrain_Dataset import Pretrain_Dataset
 
 class Refit_Parser:
 
     def __init__(self, args, stats = None):
         self.dataset_location = args.refit_location
-        assert 'Data','Labels' in os.listdir(self.dataset_location);'Incorrect Folder Structure'
-        self.data_location    = Path(args.refit_location).joinpath('Data')
-        self.labels_location  = Path(args.refit_location).joinpath('Labels')
+        self.data_location    = args.refit_location / 'Data'
+        self.labels_location  = args.refit_location / 'Labels'
+        if not self.data_location.exists() or self.labels_location.exists():
+            raise FileNotFoundError('Incorrect Folder Structure')
 
         self.appliance_names  = args.appliance_names
         self.sampling         = args.sampling
@@ -46,8 +45,8 @@ class Refit_Parser:
 
     def load_data(self):
         for house_idx in self.house_indicies:
-            filename  = 'House'+str(house_idx)+'.csv'
-            labelname = 'House'+str(house_idx)+'.txt'
+            filename  = f'House{house_idx}.csv'
+            labelname = f'House{house_idx}.txt'
             house_data_loc = self.data_location/filename
 
             with open(self.labels_location/labelname) as f:

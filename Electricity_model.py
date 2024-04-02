@@ -1,5 +1,7 @@
-from model_helpers import *
-
+import torch
+from torch import nn
+import math
+from model_helpers import PositionalEmbedding, LayerNorm, TransformerBlock
 
 
 class TransformerModel(nn.Module):
@@ -59,9 +61,6 @@ class TransformerModel(nn.Module):
         x = torch.tanh(self.linear1(x))
         x = self.linear2(x).permute(0,2,1)
         return x
-
-
-
 
 
 class ELECTRICITY(nn.Module):

@@ -1,9 +1,8 @@
 import numpy            as     np
 import pandas           as     pd
-from   pathlib          import Path
 from   collections      import defaultdict
-from   NILM_Dataset     import *
-from   Pretrain_Dataset import *
+from   NILM_Dataset     import NILMDataset
+from   Pretrain_Dataset import Pretrain_Dataset
 
 
 class UK_Dale_Parser:
@@ -52,12 +51,12 @@ class UK_Dale_Parser:
         for house_id in self.house_indicies:
             assert house_id in [1, 2, 3, 4, 5]
         
-        directory = Path(self.data_location)
+        directory = self.data_location
         
         for house_id in self.house_indicies:
-            house_folder = directory.joinpath('house_' + str(house_id))
-            house_label  = pd.read_csv(house_folder.joinpath('labels.dat'),    sep=' ', header=None)    
-            house_data   = pd.read_csv(house_folder.joinpath('channel_1.dat'), sep=' ', header=None) #aggregate
+            house_folder = directory / f'house_{house_id}'
+            house_label  = pd.read_csv(house_folder / 'labels.dat',    sep=' ', header=None)
+            house_data   = pd.read_csv(house_folder / 'channel_1.dat', sep=' ', header=None) #aggregate
             
             #read aggregate data and resample
             house_data.columns = ['time','aggregate']
@@ -86,7 +85,7 @@ class UK_Dale_Parser:
                 if channel_idx == -1:
                     house_data.insert(len(house_data.columns), appliance, np.zeros(len(house_data)))
                 else:
-                    channel_path      = house_folder.joinpath('channel_' + str(channel_idx) + '.dat')
+                    channel_path      = house_folder / f'channel_{channel_idx}.dat'
                     appl_data         = pd.read_csv(channel_path, sep = ' ', header = None)
                     appl_data.columns = ['time',appliance]
                     appl_data['time'] = pd.to_datetime(appl_data['time'],unit = 's')          

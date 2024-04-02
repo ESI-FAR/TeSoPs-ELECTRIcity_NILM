@@ -3,21 +3,16 @@
 import torch
 torch.set_default_tensor_type(torch.DoubleTensor)
 
-import argparse
-from config import *
-from UKDALE_Parser import *
-from REDD_Parser import *
-from Refit_Parser import *
-from Electricity_model import *
-from NILM_Dataloader import *
-from Trainer import *
-from time import time
-from pathlib import Path
+from config import setup_seed
+from UKDALE_Parser import UK_Dale_Parser
+from Electricity_model import ELECTRICITY
+from NILM_Dataloader import NILMDataloader
+from Trainer import Trainer
 import pickle as pkl
-import plotly.express as px
+from pyprojroot import here
 
 
-with open("./results_UK-DALE_TitanV_kettle/uk_dale/kettle/results.pkl", "rb") as f:
+with open(here("results_UK-DALE_TitanV_kettle/uk_dale/kettle/results.pkl"), "rb") as f:
     res = pkl.load(f)
 
 args = res["args"]
