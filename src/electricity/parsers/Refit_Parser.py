@@ -1,7 +1,8 @@
-import numpy  as np
+import numpy as np
 import pandas as pd
-from   NILM_Dataset     import NILMDataset
-from   Pretrain_Dataset import Pretrain_Dataset
+
+from electricity.NILM_Dataset import NILMDataset
+from electricity.Pretrain_Dataset import Pretrain_Dataset
 
 class Refit_Parser:
 

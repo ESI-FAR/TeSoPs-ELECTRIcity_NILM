@@ -1,13 +1,14 @@
 import json
 import torch
-import torch.optim         as optim
+import torch.optim as optim
 import torch.nn.functional as F
 import numpy as np
 
-from   tqdm                import tqdm
-from   torch               import nn
-from   NILM_Dataloader     import NILMDataloader
-from   metrics             import regression_errors, acc_precision_recall_f1_score
+from tqdm import tqdm
+from torch import nn
+from .NILM_Dataloader import NILMDataloader
+from .metrics import regression_errors, acc_precision_recall_f1_score
+
 
 class Trainer:
     def __init__(self,args,ds_parser,model):

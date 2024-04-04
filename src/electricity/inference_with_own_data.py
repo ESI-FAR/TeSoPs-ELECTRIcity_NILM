@@ -3,9 +3,9 @@ import pandas as pd
 
 from types import SimpleNamespace
 
-from electricity.parsers import PChainger_Parser
-from Electricity_model import ELECTRICITY
-from NILM_Dataset import NILMDataset
+from .parsers import PChainger_Parser
+from .Electricity_model import ELECTRICITY
+from .NILM_Dataset import NILMDataset
 
 torch.set_default_tensor_type(torch.DoubleTensor)
 

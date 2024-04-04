@@ -1,5 +1,7 @@
 import pandas as pd
-from Pretrain_Dataset import *
+import numpy as np
+
+from electricity.NILM_Dataset import NILMDataset
 
 
 class PChainger_Parser:

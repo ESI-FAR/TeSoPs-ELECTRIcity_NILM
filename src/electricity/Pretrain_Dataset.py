@@ -1,7 +1,9 @@
 import torch
 import random
 import numpy as np
-from   NILM_Dataset import NILMDataset
+
+from .NILM_Dataset import NILMDataset
+
 
 class Pretrain_Dataset(NILMDataset):
     def __init__(self, x, y, status, window_size=480, stride=30, mask_prob=0.25):
