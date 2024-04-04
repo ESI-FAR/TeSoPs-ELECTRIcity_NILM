@@ -1,8 +1,8 @@
-import numpy            as     np
-import pandas           as     pd
-from   collections      import defaultdict
-from   NILM_Dataset     import NILMDataset
-from   Pretrain_Dataset import Pretrain_Dataset
+import numpy as np
+import pandas as pd
+from collections import defaultdict
+from electricity.NILM_Dataset import NILMDataset
+from electricity.Pretrain_Dataset import Pretrain_Dataset
 
 
 class UK_Dale_Parser:

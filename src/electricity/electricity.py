@@ -1,14 +1,15 @@
+from time import time
+import pickle as pkl
+
 import torch
 torch.set_default_tensor_type(torch.DoubleTensor)
 from torch.utils.tensorboard import SummaryWriter
 
-from   config            import get_args, setup_seed
-from electricity.parsers import UK_Dale_Parser, Redd_Parser, Refit_Parser
-from   Electricity_model import ELECTRICITY
-from   NILM_Dataloader   import NILMDataloader
-from   Trainer           import Trainer
-from   time              import time
-import pickle            as pkl
+from .config import get_args, setup_seed
+from .parsers import UK_Dale_Parser, Redd_Parser, Refit_Parser
+from .Electricity_model import ELECTRICITY
+from .NILM_Dataloader import NILMDataloader
+from .Trainer import Trainer
 
 
 

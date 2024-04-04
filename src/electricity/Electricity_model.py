@@ -1,7 +1,9 @@
+import math
+
 import torch
 from torch import nn
-import math
-from model_helpers import PositionalEmbedding, LayerNorm, TransformerBlock
+
+from .model_helpers import PositionalEmbedding, LayerNorm, TransformerBlock
 
 
 class TransformerModel(nn.Module):
