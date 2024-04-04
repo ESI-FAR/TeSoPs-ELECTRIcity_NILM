@@ -1,4 +1,4 @@
-torch>=2.0.1"
+torch>=2.0.1
 tensorboard>=2.14.0
 pandas<2.0.0
 tqdm>=4.66.1
