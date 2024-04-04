@@ -3,11 +3,11 @@
 import torch
 torch.set_default_tensor_type(torch.DoubleTensor)
 
-from config import setup_seed
-from UKDALE_Parser import UK_Dale_Parser
-from Electricity_model import ELECTRICITY
-from NILM_Dataloader import NILMDataloader
-from Trainer import Trainer
+from electricity.config import setup_seed
+from electricity.parsers import UK_Dale_Parser
+from electricity.Electricity_model import ELECTRICITY
+from electricity.NILM_Dataloader import NILMDataloader
+from electricity.Trainer import Trainer
 import pickle as pkl
 from pyprojroot import here
 

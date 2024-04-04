@@ -2,11 +2,8 @@ import torch
 torch.set_default_tensor_type(torch.DoubleTensor)
 from torch.utils.tensorboard import SummaryWriter
 
-import os
 from   config            import get_args, setup_seed
-from   UKDALE_Parser     import UK_Dale_Parser
-from   REDD_Parser       import Redd_Parser
-from   Refit_Parser      import Refit_Parser
+from electricity.parsers import UK_Dale_Parser, Redd_Parser, Refit_Parser
 from   Electricity_model import ELECTRICITY
 from   NILM_Dataloader   import NILMDataloader
 from   Trainer           import Trainer
