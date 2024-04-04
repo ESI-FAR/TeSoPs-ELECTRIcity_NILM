@@ -16,6 +16,7 @@ with open(here("results_UK-DALE_TitanV_kettle/uk_dale/kettle/results.pkl"), "rb"
     res = pkl.load(f)
 
 args = res["args"]
+args.ukdale_location = here(args.ukdale_location)
 
 # override computing device
 args.device = "cpu"
