@@ -17,9 +17,9 @@
 
 # -- Project information -----------------------------------------------------
 
-project = u"tesops_electricity"
-copyright = u"2024, Netherlands eScience Center"
-author = u"Ole Mussmann"
+project = "tesops_electricity"
+copyright = "2024, Netherlands eScience Center"
+author = "Ole Mussmann"
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -61,7 +61,7 @@ todo_include_todos = False
 
 # -- Use autoapi.extension to run sphinx-apidoc -------
 
-autoapi_dirs = ['../src/tesops_electricity']
+autoapi_dirs = ["../src/tesops_electricity"]
 
 # -- Options for HTML output ----------------------------------------------
 
@@ -78,11 +78,12 @@ html_theme = "sphinx_rtd_theme"
 
 # -- Options for Intersphinx
 
-intersphinx_mapping = {'python': ('https://docs.python.org/3', None),
-                       # Commonly used libraries, uncomment when used in package
-                       # 'numpy': ('http://docs.scipy.org/doc/numpy/', None),
-                       # 'scipy': ('http://docs.scipy.org/doc/scipy/reference/', None),
-                       # 'scikit-learn': ('https://scikit-learn.org/stable/', None),
-                       # 'matplotlib': ('https://matplotlib.org/stable/', None),
-                       # 'pandas': ('http://pandas.pydata.org/docs/', None),
-                       }
+intersphinx_mapping = {
+    "python": ("https://docs.python.org/3", None),
+    # Commonly used libraries, uncomment when used in package
+    # 'numpy': ('http://docs.scipy.org/doc/numpy/', None),
+    # 'scipy': ('http://docs.scipy.org/doc/scipy/reference/', None),
+    # 'scikit-learn': ('https://scikit-learn.org/stable/', None),
+    # 'matplotlib': ('https://matplotlib.org/stable/', None),
+    # 'pandas': ('http://pandas.pydata.org/docs/', None),
+}

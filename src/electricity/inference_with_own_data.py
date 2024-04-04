@@ -1,23 +1,20 @@
-import torch
-import pandas as pd
-
 from types import SimpleNamespace
-
-from .parsers import PChainger_Parser
+import pandas as pd
+import torch
 from .Electricity_model import ELECTRICITY
 from .NILM_Dataset import NILMDataset
+from .parsers import PChainger_Parser
 
 torch.set_default_tensor_type(torch.DoubleTensor)
 
 
-#data_file = "./data/test/geert/main.csv"
-#model_file = "./results_UK-DALE_TitanV_kettle/uk_dale/kettle/best_acc_model.pth"
+# data_file = "./data/test/geert/main.csv"
+# model_file = "./results_UK-DALE_TitanV_kettle/uk_dale/kettle/best_acc_model.pth"
 
-#device = "cpu"
+# device = "cpu"
 
 
 def inference(config):
-
     args = SimpleNamespace(
         drop_out=0.1,
         heads=2,
@@ -40,18 +37,14 @@ def inference(config):
         val_size=1,
         separator=",",
         window_size=480,
-        window_stride=240
+        window_stride=240,
     )
 
     model = ELECTRICITY(args)
     model.load_state_dict(torch.load(config["model_file"], map_location=torch.device(config["device"])))
 
     inference_data = NILMDataset(
-        x=ds_parser.x,
-        y=[0] * len(ds_parser.x),
-        status=[0] * len(ds_parser.x),
-        window_size=480,
-        stride=480
+        x=ds_parser.x, y=[0] * len(ds_parser.x), status=[0] * len(ds_parser.x), window_size=480, stride=480
     )
 
     inference_dataloader = torch.utils.data.DataLoader(
@@ -59,7 +52,7 @@ def inference(config):
         batch_size=480,
     )
 
-    out = model.eval()
+    model.eval()
 
     batches = []
     for batch in inference_dataloader:
@@ -74,13 +67,10 @@ def inference(config):
     if ds_parser.normalize == "mean":
         print(ds_parser.x_std)
         print(ds_parser.x_mean)
-        rescaled_data = [data_point * ds_parser.x_std + ds_parser.x_mean \
-                         for data_point in data]
+        rescaled_data = [data_point * ds_parser.x_std + ds_parser.x_mean for data_point in data]
     elif ds_parser.normalize == "minmax":
-        rescaled_data = [data_point * (ds_parser.x_max - ds_parser.x_min) \
-                + ds_parser.x_min for data_point in data]
+        rescaled_data = [data_point * (ds_parser.x_max - ds_parser.x_min) + ds_parser.x_min for data_point in data]
     else:
         rescaled_data = data
 
-    return pd.DataFrame(data, index=ds_parser.index,
-                        columns=["inference"])
+    return pd.DataFrame(rescaled_data, index=ds_parser.index, columns=["inference"])
