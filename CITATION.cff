@@ -1,0 +1,21 @@
+# YAML 1.2
+---
+cff-version: "1.2.0"
+title: "tesops_electricity"
+authors:
+  -
+    family-names: Mussmann
+    given-names: Ole
+    orcid: "https://orcid.org/0000-0002-3803-4287"
+  -
+    family-names: van Rijn
+    given-names: Sander
+    orcid: "https://orcid.org/0000-0001-6159-041X"
+date-released: 2024-04-04
+version: "0.0.1"
+repository-code: "https://github.com/ESI-FAR/tesops-electricity_nilm"
+keywords:
+  - nilm
+  - disaggregation
+message: "If you use this software, please cite it using these metadata."
+license: MIT
