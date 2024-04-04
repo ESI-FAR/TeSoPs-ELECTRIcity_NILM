@@ -7,6 +7,19 @@
     flake-utils.lib.eachDefaultSystem (system: let
       pkgs = nixpkgs.legacyPackages.${system};
       py = pkgs.python311Packages;
+      pyprojroot = py.buildPythonPackage rec {
+        pname = "pyprojroot";
+        version = "0.3.0";
+        format = "pyproject";
+        src = pkgs.fetchPypi{
+          inherit pname version;
+          sha256 = "sha256-EJcFu3kJaHBJWO/PxczOhdjj2voFSJfMgTcfy79WyxA=";
+        };
+        buildInputs = [
+          py.setuptools
+        ];
+      };
+
     in {
       devShells.default = pkgs.mkShell rec {
         packages = with pkgs; [
@@ -22,6 +35,9 @@
           # plotting
           py.plotly
           py.ipywidgets
+
+          # from github
+          pyprojroot
         ];
       };
     });
