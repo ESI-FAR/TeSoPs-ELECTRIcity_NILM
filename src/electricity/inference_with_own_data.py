@@ -3,7 +3,7 @@ import pandas as pd
 
 from types import SimpleNamespace
 
-from PChainger_Parser import PChainger_Parser
+from electricity.parsers import PChainger_Parser
 from Electricity_model import ELECTRICITY
 from NILM_Dataset import NILMDataset
 
