@@ -98,12 +98,12 @@ class Redd_Parser:
                     if house_id == self.house_indicies[0]:
                         entire_data = house_data
                     else:
-                        entire_data = entire_data.append(house_data, ignore_index=True)
+                        entire_data = pd.concat([entire_data, house_data], ignore_index=True)
 
-                    entire_data = entire_data.dropna().copy()
-                    entire_data = entire_data[entire_data["aggregate"] > 0]
-                    entire_data[entire_data < 5] = 0
-                    entire_data = entire_data.clip([0] * len(entire_data.columns), self.cutoff, axis=1)
+            entire_data = entire_data.dropna().copy()
+            entire_data = entire_data[entire_data["aggregate"] > 0]
+            entire_data[entire_data < 5] = 0
+            entire_data = entire_data.clip([0] * len(entire_data.columns), self.cutoff, axis=1)
 
             return entire_data.values[:, 0], entire_data.values[:, 1]
 
