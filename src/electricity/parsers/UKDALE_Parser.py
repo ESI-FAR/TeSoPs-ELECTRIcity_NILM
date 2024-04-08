@@ -58,7 +58,7 @@ class UK_Dale_Parser:
             # read aggregate data and resample
             house_data.columns = ["time", "aggregate"]
             house_data["time"] = pd.to_datetime(house_data["time"], unit="s")
-            house_data = house_data.set_index("time").resample(self.sampling).mean().fillna(method="ffill", limit=30)
+            house_data = house_data.set_index("time").resample(self.sampling).mean().ffill(limit=30)
 
             appliance_list = house_label.iloc[:, 1].values
             app_index_dict = defaultdict(list)
@@ -87,7 +87,7 @@ class UK_Dale_Parser:
                     appl_data.columns = ["time", appliance]
                     appl_data["time"] = pd.to_datetime(appl_data["time"], unit="s")
                     appl_data = (
-                        appl_data.set_index("time").resample(self.sampling).mean().fillna(method="ffill", limit=30)
+                        appl_data.set_index("time").resample(self.sampling).mean().ffill(limit=30)
                     )
                     house_data = pd.merge(house_data, appl_data, how="inner", on="time")
 

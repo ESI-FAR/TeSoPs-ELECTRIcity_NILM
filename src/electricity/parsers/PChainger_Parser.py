@@ -43,7 +43,7 @@ class PChainger_Parser:
         # read aggregate data and resample
         house_data.columns = ["time", "aggregate"]
         house_data["time"] = pd.to_datetime(house_data["time"])
-        house_data = house_data.set_index("time").resample(self.sampling).mean().fillna(method="ffill", limit=30)
+        house_data = house_data.set_index("time").resample(self.sampling).mean().ffill(limit=30)
 
         house_data = house_data.clip(
             [0] * len(house_data.columns), self.cutoff, axis=1

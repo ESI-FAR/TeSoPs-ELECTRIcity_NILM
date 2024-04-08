@@ -93,7 +93,7 @@ class Redd_Parser:
                     house_data.iloc[:, 0] = pd.to_datetime(house_data.iloc[:, 0], unit="s")
                     house_data.columns = ["time", "aggregate"] + [i for i in self.appliance_names]
                     house_data = house_data.set_index("time")
-                    house_data = house_data.resample(self.sampling).mean().fillna(method="ffill", limit=30)
+                    house_data = house_data.resample(self.sampling).mean().ffill(limit=30)
 
                     if house_id == self.house_indicies[0]:
                         entire_data = house_data

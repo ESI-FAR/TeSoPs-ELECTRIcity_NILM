@@ -61,7 +61,7 @@ class Refit_Parser:
                 idx_to_drop = house_data[house_data["Issues"] == 1].index
                 house_data = house_data.drop(index=idx_to_drop, axis=0)
                 house_data = house_data[["Aggregate", self.appliance_names[0]]]
-                house_data = house_data.resample(self.sampling).mean().fillna(method="ffill", limit=30)
+                house_data = house_data.resample(self.sampling).mean().ffill(limit=30)
 
                 if house_idx == self.house_indicies[0]:
                     entire_data = house_data
