@@ -3,13 +3,12 @@
 cff-version: "1.2.0"
 title: "tesops_electricity"
 authors:
-  -
-    family-names: Mussmann
+  - family-names: Mussmann
     given-names: Ole
     orcid: "https://orcid.org/0000-0002-3803-4287"
-  -
-    family-names: van Rijn
+  - family-names: Rijn
     given-names: Sander
+    name-particle: van
     orcid: "https://orcid.org/0000-0001-6159-041X"
 date-released: 2024-04-04
 version: "0.0.1"
