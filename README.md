@@ -4,7 +4,7 @@ Pytorch implementation of ELECTRIcity: An efficient Transformer for Non-Intrusiv
 
 ## Data
 
-The csv datasets could be downloaded here: [REDD](http://redd.csail.mit.edu/), [UK-DALE](https://jack-kelly.com/data/) and [Refit](https://pureportal.strath.ac.uk/en/datasets/refit-electrical-load-measurements-cleaned)
+The csv datasets could be downloaded here: ~REDD~[^1], [UK-DALE](https://jack-kelly.com/data/) and [Refit](https://pureportal.strath.ac.uk/en/datasets/refit-electrical-load-measurements-cleaned)
 
 For Refit, we used a slightly different folder structure. We have created .txt files with columns labels that are required during data processing. Please place the .csv files in the Data Folder for the code to work.
 
@@ -98,3 +98,7 @@ DOI = {10.3390/s22082926}
 ## Acknowledgement
 
 We used [BERT4NILM](https://github.com/Yueeeeeeee/BERT4NILM) by Yue et. al. as template for our code. We would like to thank the authors for their valuable work that has inspired ours!
+
+<!-- markdown-link-check-disable -->
+[^1]: Original download site ~http://redd.csail.mit.edu/~ is no longer online
+<!-- markdown-link-check-enable -->
