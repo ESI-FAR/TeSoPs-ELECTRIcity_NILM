@@ -14,7 +14,7 @@ torch.set_default_tensor_type(torch.DoubleTensor)
 
 def test_powerchainger_smoke():
     """notebooks/Test_Parser.ipynb as a 'smoke test'."""
-    data_file = here("data/test/geert/main.csv")
+    data_file = here("tests/test_data/main.csv")
     model_file = here("results_UK-DALE_TitanV_kettle/uk_dale/kettle/best_acc_model.pth")
     expected_file = here('tests/test_data/powerchainger_output.npy')
     device = "cpu"
@@ -64,5 +64,5 @@ def test_powerchainger_smoke():
 
     df = pd.DataFrame(data, index=ds_parser.index, columns=["inference"])
 
-    expected = np.load(expected_file)
+    expected = np.load(expected_file, allow_pickle=True)
     assert np.allclose(expected, df.values)
