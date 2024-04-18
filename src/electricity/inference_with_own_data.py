@@ -8,12 +8,6 @@ from .parsers import PChainger_Parser
 torch.set_default_tensor_type(torch.DoubleTensor)
 
 
-# data_file = "./data/test/geert/main.csv"
-# model_file = "./results_UK-DALE_TitanV_kettle/uk_dale/kettle/best_acc_model.pth"
-
-# device = "cpu"
-
-
 def inference(config):
     args = SimpleNamespace(
         drop_out=0.1,

@@ -97,8 +97,6 @@ class Trainer:
 
             logits_masked = torch.masked_select(logits, mask).view((-1))
             labels_masked = torch.masked_select(y_capped, mask).view((-1))
-            # status_masked        = torch.masked_select(status       , mask).view((-1))
-            # logits_status_masked = torch.masked_select(logits_status, mask).view((-1))
             gen_out = gen_out.view(-1)
 
             mask = mask.view(-1).type(torch.DoubleTensor).to(self.device)
@@ -275,11 +273,6 @@ class Trainer:
             return optim.SGD(optimizer_grouped_parameters, lr=self.args.lr, momentum=self.args.momentum)
         else:
             raise ValueError
-
-    def _save_state_dict(self):
-        self.export_root.mkdir(parents=True, exist_ok=True)
-        print("Saving best model...")
-        torch.save(self.model.state_dict(), self.export_root / "best_acc_model.pth")
 
     def _load_best_model(self, map_location):
         try:
