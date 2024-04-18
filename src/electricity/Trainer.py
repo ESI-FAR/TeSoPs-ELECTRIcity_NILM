@@ -9,6 +9,8 @@ from .metrics import acc_precision_recall_f1_score
 from .metrics import regression_errors
 from .NILM_Dataloader import NILMDataloader
 
+TORCH_SAVE_NAME = 'best_acc_model.pth'
+
 
 class Trainer:
     def __init__(self, args, ds_parser, model):
@@ -214,7 +216,7 @@ class Trainer:
     def _save_state_dict(self):
         self.export_root.mkdir(parents=True, exist_ok=True)
         print("Saving best model...")
-        torch.save(self.model.state_dict(), self.export_root / "best_acc_model.pth")
+        torch.save(self.model.state_dict(), self.export_root / TORCH_SAVE_NAME)
 
     def update_metrics_dict(self, mae, mre, acc, precision, recall, f1, mode="val"):
         if mode == "train":
@@ -276,7 +278,7 @@ class Trainer:
 
     def _load_best_model(self, map_location):
         try:
-            self.model.load_state_dict(torch.load(self.export_root / "best_acc_model.pth", map_location=map_location))
+            self.model.load_state_dict(torch.load(self.export_root / TORCH_SAVE_NAME, map_location=map_location))
             self.model.to(self.device)
         except:
             print("Failed to load best model, continue testing with current model...")
