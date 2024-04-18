@@ -95,7 +95,7 @@ class Trainer:
 
             y_capped = y / self.cutoff
 
-            logits, gen_out, logits_y, logits_status = self.get_model_outputs(x, mask)
+            logits, gen_out, _, _ = self.get_model_outputs(x, mask)
 
             logits_masked = torch.masked_select(logits, mask).view((-1))
             labels_masked = torch.masked_select(y_capped, mask).view((-1))
@@ -128,7 +128,7 @@ class Trainer:
             self.optimizer.zero_grad()
             y_capped = y / self.cutoff
 
-            logits, _, logits_y, logits_status = self.get_model_outputs(x)
+            logits, _, _, logits_status = self.get_model_outputs(x)
             total_loss = self.loss_fn_train(logits, y_capped, logits_status, status)
 
             total_loss.backward()
