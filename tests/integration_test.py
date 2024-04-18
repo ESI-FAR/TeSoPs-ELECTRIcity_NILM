@@ -7,7 +7,7 @@ import torch
 from pyprojroot import here
 from electricity.Electricity_model import ELECTRICITY
 from electricity.NILM_Dataset import NILMDataset
-from electricity.parsers import PChainger_Parser
+from electricity.parsers import PChaingerParser
 
 torch.set_default_tensor_type(torch.DoubleTensor)
 
@@ -27,7 +27,7 @@ def test_powerchainger_smoke():
         pretrain=False,
         window_size=480,
     )
-    ds_parser = PChainger_Parser(
+    ds_parser = PChaingerParser(
         sampling="6s",
         normalize="mean",
         cutoff=[3100],

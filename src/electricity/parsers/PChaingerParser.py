@@ -3,7 +3,7 @@ import pandas as pd
 from electricity.NILM_Dataset import NILMDataset
 
 
-class PChainger_Parser:
+class PChaingerParser:
     def __init__(
         self,
         sampling,

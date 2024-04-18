@@ -1,6 +1,6 @@
-from .PChainger_Parser import PChainger_Parser
-from .REDD_Parser import Redd_Parser
-from .Refit_Parser import Refit_Parser
-from .UKDALE_Parser import UK_Dale_Parser
+from .PChaingerParser import PChaingerParser
+from .REDDParser import REDDParser
+from .RefitParser import RefitParser
+from .UKDaleParser import UKDaleParser
 
-__all__ = [PChainger_Parser, Redd_Parser, Refit_Parser, UK_Dale_Parser]
+__all__ = ["PChaingerParser", "REDDParser", "RefitParser", "UKDaleParser"]

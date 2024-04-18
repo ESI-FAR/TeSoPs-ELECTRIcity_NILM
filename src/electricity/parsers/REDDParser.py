@@ -2,10 +2,10 @@ from collections import defaultdict
 import numpy as np
 import pandas as pd
 from electricity.NILM_Dataset import NILMDataset
-from electricity.Pretrain_Dataset import Pretrain_Dataset
+from electricity.PretrainDataset import PretrainDataset
 
 
-class Redd_Parser:
+class REDDParser:
     def __init__(self, args, stats=None):
         self.data_location = args.redd_location
         self.house_indicies = args.house_indicies
@@ -162,7 +162,7 @@ class Redd_Parser:
         val_end = int(self.val_size * len(self.x))
 
         val = NILMDataset(self.x[:val_end], self.y[:val_end], self.status[:val_end], self.window_size, self.window_size)
-        train = Pretrain_Dataset(
+        train = PretrainDataset(
             self.x[val_end:],
             self.y[val_end:],
             self.status[val_end:],

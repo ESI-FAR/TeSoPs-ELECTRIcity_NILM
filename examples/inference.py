@@ -6,7 +6,7 @@ from pyprojroot import here
 from electricity.config import setup_seed
 from electricity.Electricity_model import ELECTRICITY
 from electricity.NILM_Dataloader import NILMDataloader
-from electricity.parsers import UK_Dale_Parser
+from electricity.parsers import UKDaleParser
 from electricity.Trainer import Trainer
 
 torch.set_default_tensor_type(torch.DoubleTensor)
@@ -27,7 +27,7 @@ setup_seed(args.seed)
 
 args.house_indices = [2]
 args.validation_size = 0.1
-ds_parser = UK_Dale_Parser(args)
+ds_parser = UKDaleParser(args)
 
 model = ELECTRICITY(args)
 trainer = Trainer(args, ds_parser, model)

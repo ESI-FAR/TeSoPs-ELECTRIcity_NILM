@@ -1,10 +1,10 @@
 import numpy as np
 import pandas as pd
 from electricity.NILM_Dataset import NILMDataset
-from electricity.Pretrain_Dataset import Pretrain_Dataset
+from electricity.PretrainDataset import PretrainDataset
 
 
-class Refit_Parser:
+class RefitParser:
     def __init__(self, args, stats=None):
         self.dataset_location = args.refit_location
         self.data_location = args.refit_location / "Data"
@@ -137,7 +137,7 @@ class Refit_Parser:
         val_end = int(self.val_size * len(self.x))
 
         val = NILMDataset(self.x[:val_end], self.y[:val_end], self.status[:val_end], self.window_size, self.window_size)
-        train = Pretrain_Dataset(
+        train = PretrainDataset(
             self.x[val_end:],
             self.y[val_end:],
             self.status[val_end:],

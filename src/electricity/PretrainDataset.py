@@ -4,7 +4,7 @@ import torch
 from .NILM_Dataset import NILMDataset
 
 
-class Pretrain_Dataset(NILMDataset):
+class PretrainDataset(NILMDataset):
     def __init__(self, x, y, status, window_size=480, stride=30, mask_prob=0.25):
         self.x = x
         self.y = y

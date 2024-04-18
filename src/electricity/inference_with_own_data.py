@@ -3,7 +3,7 @@ import pandas as pd
 import torch
 from .Electricity_model import ELECTRICITY
 from .NILM_Dataset import NILMDataset
-from .parsers import PChainger_Parser
+from .parsers import PChaingerParser
 
 torch.set_default_tensor_type(torch.DoubleTensor)
 
@@ -22,7 +22,7 @@ def inference(config):
     # `drop_last = True` will drop the last part of the data that
     # does not fit in the window_size anymore!
 
-    ds_parser = PChainger_Parser(
+    ds_parser = PChaingerParser(
         sampling=config["sampling"],
         normalize="mean",
         cutoff=config["cutoff"],

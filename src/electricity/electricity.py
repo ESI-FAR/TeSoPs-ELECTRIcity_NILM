@@ -6,9 +6,9 @@ from .config import get_args
 from .config import setup_seed
 from .Electricity_model import ELECTRICITY
 from .NILM_Dataloader import NILMDataloader
-from .parsers import Redd_Parser
-from .parsers import Refit_Parser
-from .parsers import UK_Dale_Parser
+from .parsers import REDDParser
+from .parsers import RefitParser
+from .parsers import UKDaleParser
 from .Trainer import Trainer
 
 torch.set_default_tensor_type(torch.DoubleTensor)
@@ -21,14 +21,14 @@ if __name__ == "__main__":
 
     if args.dataset_code == "redd_lf":
         args.house_indicies = [2, 3, 4, 5, 6]
-        ds_parser = Redd_Parser(args)
+        ds_parser = REDDParser(args)
     elif args.dataset_code == "uk_dale":
         args.house_indicies = [1, 3, 4, 5]
-        ds_parser = UK_Dale_Parser(args)
+        ds_parser = UKDaleParser(args)
     elif args.dataset_code == "refit":
         args.house_indicies = [2, 3, 16]
         args.sampling = "7s"
-        ds_parser = Refit_Parser(args)
+        ds_parser = RefitParser(args)
 
     model = ELECTRICITY(args)
 
@@ -59,13 +59,13 @@ if __name__ == "__main__":
     stats = (x_mean, x_std)
     if args.dataset_code == "redd_lf":
         args.house_indicies = [1]
-        ds_parser = Redd_Parser(args, stats)
+        ds_parser = REDDParser(args, stats)
     elif args.dataset_code == "uk_dale":
         args.house_indicies = [2]
-        ds_parser = UK_Dale_Parser(args, stats)
+        ds_parser = UKDaleParser(args, stats)
     elif args.dataset_code == "refit":
         args.house_indicies = [5]
-        ds_parser = Refit_Parser(args)
+        ds_parser = RefitParser(args)
 
     dataloader = NILMDataloader(args, ds_parser)
     _, test_loader = dataloader.get_dataloaders()
