@@ -64,5 +64,5 @@ def test_powerchainger_smoke():
 
     df = pd.DataFrame(data, index=ds_parser.index, columns=["inference"])
 
-    expected = np.load(expected_file, allow_pickle=True)
+    expected = np.load(expected_file)
     assert np.allclose(expected, df.values)
