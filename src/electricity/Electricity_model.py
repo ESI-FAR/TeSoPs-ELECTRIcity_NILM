@@ -49,14 +49,14 @@ class TransformerModel(nn.Module):
         for n, p in params:
             if "layer_norm" in n:
                 continue
-            else:
-                with torch.no_grad():
-                    low = (1.0 + math.erf(((lower - mean) / std) / math.sqrt(2.0))) / 2.0
-                    upp = (1.0 + math.erf(((upper - mean) / std) / math.sqrt(2.0))) / 2.0
-                    p.uniform_(2 * low - 1, 2 * upp - 1)
-                    p.erfinv_()
-                    p.mul_(std * math.sqrt(2.0))
-                    p.add_(mean)
+
+            with torch.no_grad():
+                low = (1.0 + math.erf(((lower - mean) / std) / math.sqrt(2.0))) / 2.0
+                upp = (1.0 + math.erf(((upper - mean) / std) / math.sqrt(2.0))) / 2.0
+                p.uniform_(2 * low - 1, 2 * upp - 1)
+                p.erfinv_()
+                p.mul_(std * math.sqrt(2.0))
+                p.add_(mean)
 
     def forward(self, sequence):
         x_token = self.pool(self.conv(sequence)).permute(0, 2, 1)

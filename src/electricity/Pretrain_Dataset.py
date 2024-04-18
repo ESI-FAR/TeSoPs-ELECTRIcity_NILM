@@ -22,10 +22,12 @@ class Pretrain_Dataset(NILMDataset):
         status = self.padding_seqs(self.status[start_index:end_index]).copy()
 
         for i in range(len(x)):
-            prob = random.random()
-            if prob <= self.mask_prob:
+            if random.random() <= self.mask_prob:
                 prob = random.random()
-                x[i] = -1 if prob < 0.8 else np.random.normal() if prob < 0.9 else x[i]
+                if prob < 0.8:
+                    x[i] = -1
+                elif prob < 0.9:
+                    x[i] = np.random.normal()
             else:
                 y[i] = -1
                 status[i] = -1

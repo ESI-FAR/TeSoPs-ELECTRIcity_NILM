@@ -219,27 +219,19 @@ class Trainer:
         torch.save(self.model.state_dict(), self.export_root / TORCH_SAVE_NAME)
 
     def update_metrics_dict(self, mae, mre, acc, precision, recall, f1, mode="val"):
-        if mode == "train":
-            self.train_metrics_dict["mae"].append(mae)
-            self.train_metrics_dict["mre"].append(mre)
-            self.train_metrics_dict["acc"].append(acc)
-            self.train_metrics_dict["precision"].append(precision)
-            self.train_metrics_dict["recall"].append(recall)
-            self.train_metrics_dict["f1"].append(f1)
-        elif mode == "val":
-            self.val_metrics_dict["mae"].append(mae)
-            self.val_metrics_dict["mre"].append(mre)
-            self.val_metrics_dict["acc"].append(acc)
-            self.val_metrics_dict["precision"].append(precision)
-            self.val_metrics_dict["recall"].append(recall)
-            self.val_metrics_dict["f1"].append(f1)
-        else:
-            self.test_metrics_dict["mae"].append(mae)
-            self.test_metrics_dict["mre"].append(mre)
-            self.test_metrics_dict["acc"].append(acc)
-            self.test_metrics_dict["precision"].append(precision)
-            self.test_metrics_dict["recall"].append(recall)
-            self.test_metrics_dict["f1"].append(f1)
+        which_metrics_dict = {
+            'train': self.train_metrics_dict,
+            'val': self.val_metrics_dict,
+            'test': self.test_metrics_dict,
+        }
+        metrics_dict = which_metrics_dict[mode]
+
+        metrics_dict["mae"].append(mae)
+        metrics_dict["mre"].append(mre)
+        metrics_dict["acc"].append(acc)
+        metrics_dict["precision"].append(precision)
+        metrics_dict["recall"].append(recall)
+        metrics_dict["f1"].append(f1)
 
     def get_model_outputs(self, x, mask=None):
         logits, gen_out = self.model(x, mask)
