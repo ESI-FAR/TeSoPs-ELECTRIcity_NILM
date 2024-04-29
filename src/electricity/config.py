@@ -177,12 +177,12 @@ def update_preprocessing_parameters(args):
         }
 
     args.window_stride = 120 if args.dataset_code == "redd_lf" else 240
-    indices = list(range(1, 22))
-    num_indices_per_dataset = {
-        'redd_lf': 6,
-        'uk_dale': 5,
+    house_indices_per_dataset = {
+        "redd_lf": [1, 2, 3, 4, 5, 6],
+        "uk_dale": [1, 2, 3, 4, 5],
+        "refit": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21],
     }
-    num_indices = num_indices_per_dataset.get(args.dataset_code, 21)
-    args.house_indicies = indices[:num_indices]
+
+    args.house_indicies = house_indices_per_dataset[args.dataset_code]
 
     return args
