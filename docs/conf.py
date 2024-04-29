@@ -17,7 +17,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = "tesops_electricity"
+project = "TeSoPs-ELECTRIcity"
 copyright = "2024, Netherlands eScience Center"
 author = "Ole Mussmann"
 
@@ -61,7 +61,7 @@ todo_include_todos = False
 
 # -- Use autoapi.extension to run sphinx-apidoc -------
 
-autoapi_dirs = ["../src/tesops_electricity"]
+autoapi_dirs = ["../src/electricity"]
 
 # -- Options for HTML output ----------------------------------------------
 
