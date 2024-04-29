@@ -138,3 +138,19 @@ This section describes how to make a release in 2 parts:
 ### (2/2) GitHub
 
 Make a [release on GitHub](https://github.com/ESI-FAR/tesops-electricity_nilm/releases/new). If your repository uses the GitHub-Zenodo integration this will also trigger Zenodo into making a snapshot of your repository and sticking a DOI on it.
+
+## Pull Requests
+
+Pushing to main works only via local fast-forward merging an approved Pull Request (PR). This is the workflow:
+
+- Create a new branch
+  - Recommended name: `issue_number-issue_description`, e.g. `39-reduce-ci-runs`
+- Fix stuff
+- Rebase onto new main, if necessary
+- Create PR
+- Have someone review the PR
+- Have someone approve the PR
+- Rebase onto new main, if necessary
+- `git merge --ff-only` locally into main
+- Push main (now allowed)
+  - PR is automatically closed
