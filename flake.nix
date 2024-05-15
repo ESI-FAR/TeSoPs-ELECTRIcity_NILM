@@ -5,7 +5,10 @@
 
   outputs = { self, nixpkgs, flake-utils }:
     flake-utils.lib.eachDefaultSystem (system: let
-      pkgs = nixpkgs.legacyPackages.${system};
+      pkgs = import nixpkgs {
+        system = "${system}";
+        config.allowUnfree = true;  # allow for unfree cuda
+      };
       py = pkgs.python311Packages;
       pyprojroot = py.buildPythonPackage rec {
         pname = "pyprojroot";
@@ -19,6 +22,15 @@
           py.setuptools
         ];
       };
+      electricity = py.buildPythonPackage rec {
+        pname = "electricity";
+        version = "0.0.1";
+        format = "pyproject";
+        src = ./. ;
+        buildInputs = [
+          py.setuptools-scm
+        ];
+      };
 
     in {
       devShells.default = pkgs.mkShell rec {
@@ -26,7 +38,7 @@
           py.bokeh
           py.jupyterlab
           py.pandas
-          py.pytorch
+          py.pytorchWithCuda
           py.scikit-learn
           py.tensorboard
           py.tqdm
@@ -38,6 +50,9 @@
 
           # from github
           pyprojroot
+
+          # local
+          electricity
         ];
       };
     });
