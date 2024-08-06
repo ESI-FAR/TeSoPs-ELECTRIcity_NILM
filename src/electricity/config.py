@@ -5,6 +5,16 @@ import torch
 from pyprojroot import here
 
 
+def str2bool(v):
+    if isinstance(v, bool):
+        return v
+    if v.lower() in ('yes', 'true', 't', 'y', '1'):
+        return True
+    elif v.lower() in ('no', 'false', 'f', 'n', '0'):
+        return False
+    else:
+        raise argparse.ArgumentTypeError(f"invalid bool value: '{v}'")
+
 def get_args():
     parser = argparse.ArgumentParser()
 
@@ -44,7 +54,7 @@ def get_args():
     parser.add_argument("--heads", type=int, default=2)
     parser.add_argument("--n_layers", type=int, default=2)
 
-    parser.add_argument("--pretrain", type=bool, default=True)
+    parser.add_argument("--pretrain", type=str2bool, default=True)
     parser.add_argument("--mask_prob", type=float, default=0.25)
     parser.add_argument("--pretrain_num_epochs", type=int, default=10)
     parser.add_argument("--num_epochs", type=int, default=90)
@@ -52,7 +62,8 @@ def get_args():
 
     parser.add_argument("--optimizer", type=str, default="adam", choices=["sgd", "adam", "adamw"])
     parser.add_argument("--lr", type=float, default=1e-4)
-    parser.add_argument("--enable_lr_schedule", type=bool, default=False)
+    parser.add_argument("--enable_lr_schedule", type=str2bool, default=False)
+
     parser.add_argument("--weight_decay", type=float, default=0.0)
     parser.add_argument("--momentum", type=float, default=None)
     parser.add_argument("--decay_step", type=int, default=100)
