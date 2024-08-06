@@ -55,9 +55,18 @@ def train():
 
     # Testing Loop
     args.validation_size = 1.0
-    x_mean = trainer.x_mean.detach().cpu().numpy()
-    x_std = trainer.x_std.detach().cpu().numpy()
-    stats = (x_mean, x_std)
+
+    if trainer.normalize == "mean":
+        x_mean = trainer.x_mean.detach().cpu().numpy()
+        x_std = trainer.x_std.detach().cpu().numpy()
+        stats = (x_mean, x_std)
+    elif trainer.normalize == "minmax":
+        x_min = trainer.x_min.detach().cpu().numpy()
+        x_max = trainer.x_max.detach().cpu().numpy()
+        stats = (x_min, x_max)
+    else:
+        raise ValueError("No normalization chosen")
+
     if args.dataset_code == "redd_lf":
         args.house_indicies = [1]
         ds_parser = REDDParser(args, stats)
