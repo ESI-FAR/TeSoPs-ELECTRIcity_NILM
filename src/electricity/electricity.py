@@ -11,9 +11,10 @@ from .parsers import RefitParser
 from .parsers import UKDaleParser
 from .Trainer import Trainer
 
-torch.set_default_tensor_type(torch.DoubleTensor)
 
-if __name__ == "__main__":
+def train():
+    torch.set_default_tensor_type(torch.DoubleTensor)
+
     args = get_args()
     setup_seed(args.seed)
 
@@ -69,7 +70,7 @@ if __name__ == "__main__":
 
     dataloader = NILMDataloader(args, ds_parser)
     _, test_loader = dataloader.get_dataloaders()
-    mre, mae, acc, prec, recall, f1 = trainer.test(test_loader)
+    mre, mae, acc, _, _, f1 = trainer.test(test_loader)
     print("Mean Accuracy:", acc)
     print("Mean F1-Score:", f1)
     print("MAE:", mae)
@@ -95,3 +96,7 @@ if __name__ == "__main__":
 
     fname = trainer.export_root / "results.pkl"
     pkl.dump(results, open(fname, "wb"))
+
+
+if __name__ == "__main__":
+    train()

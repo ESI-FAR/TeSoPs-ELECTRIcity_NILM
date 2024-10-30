@@ -44,10 +44,10 @@ The folder structure in the data folder should be:
 This repository provides the end-to-end pipeline to train a model using ELECTRIcity. 
 
 
-The required packages to run the code can be found in electricity.yml. Model training and testing can be done by running the electricity.py python file. 
+The required packages to run the code can be found in electricity.yml. Model training and testing can be done by running the `electricity` entry point. An example call can look like
 
 ```bash
-python electricity.py
+electricity --device=cuda --normalize=minmax --appliance_names=fridge --export_root=my_results --dataset_code=uk_dale --pretrain=False --num_epochs=20
 ```
 
 First, config.py provides all the hyperparameters required in the pipeline. Then, the script creates a dataset parser for either UK_Dale, Refit or Redd, depending on the choice of the user in config.py (arugment dataset_code). Trainer.py contains all the functions necessary to perform model training and testing. 
