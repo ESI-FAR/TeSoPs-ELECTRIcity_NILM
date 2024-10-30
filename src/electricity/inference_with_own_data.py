@@ -24,7 +24,7 @@ def inference(config):
 
     ds_parser = PChaingerParser(
         sampling=config["sampling"],
-        normalize="mean",
+        normalize=config["normalize"],
         cutoff=config["cutoff"],
         drop_last=True,
         location=config["data_file"],
@@ -59,8 +59,6 @@ def inference(config):
 
     # "undo" normalizations
     if ds_parser.normalize == "mean":
-        print(ds_parser.x_std)
-        print(ds_parser.x_mean)
         rescaled_data = [data_point * ds_parser.x_std + ds_parser.x_mean for data_point in data]
     elif ds_parser.normalize == "minmax":
         rescaled_data = [data_point * (ds_parser.x_max - ds_parser.x_min) + ds_parser.x_min for data_point in data]

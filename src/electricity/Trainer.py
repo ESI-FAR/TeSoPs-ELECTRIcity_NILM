@@ -46,6 +46,10 @@ class Trainer:
             self.x_mean, self.x_std = ds_parser.x_mean, ds_parser.x_std
             self.x_mean = torch.tensor(self.x_mean).to(self.device)
             self.x_std = torch.tensor(self.x_std).to(self.device)
+        if self.normalize == "minmax":
+            self.x_min, self.x_max = ds_parser.x_min, ds_parser.x_max
+            self.x_min = torch.tensor(self.x_min).to(self.device)
+            self.x_max = torch.tensor(self.x_max).to(self.device)
 
         self.mse = nn.MSELoss()
         self.kl = nn.KLDivLoss(reduction="batchmean")

@@ -11,9 +11,10 @@ from .parsers import RefitParser
 from .parsers import UKDaleParser
 from .Trainer import Trainer
 
-torch.set_default_tensor_type(torch.DoubleTensor)
 
-if __name__ == "__main__":
+def train():
+    torch.set_default_tensor_type(torch.DoubleTensor)
+
     args = get_args()
     setup_seed(args.seed)
 
@@ -54,9 +55,18 @@ if __name__ == "__main__":
 
     # Testing Loop
     args.validation_size = 1.0
-    x_mean = trainer.x_mean.detach().cpu().numpy()
-    x_std = trainer.x_std.detach().cpu().numpy()
-    stats = (x_mean, x_std)
+
+    if trainer.normalize == "mean":
+        x_mean = trainer.x_mean.detach().cpu().numpy()
+        x_std = trainer.x_std.detach().cpu().numpy()
+        stats = (x_mean, x_std)
+    elif trainer.normalize == "minmax":
+        x_min = trainer.x_min.detach().cpu().numpy()
+        x_max = trainer.x_max.detach().cpu().numpy()
+        stats = (x_min, x_max)
+    else:
+        raise ValueError("f'Invalid normalization option: {trainer.normalize}'")
+
     if args.dataset_code == "redd_lf":
         args.house_indicies = [1]
         ds_parser = REDDParser(args, stats)
@@ -95,3 +105,7 @@ if __name__ == "__main__":
 
     fname = trainer.export_root / "results.pkl"
     pkl.dump(results, open(fname, "wb"))
+
+
+if __name__ == "__main__":
+    train()

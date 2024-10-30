@@ -49,6 +49,9 @@ Repository = "https://github.com/ESI-FAR/tesops-electricity_nilm"
 Issues = "https://github.com/ESI-FAR/tesops-electricity_nilm/issues"
 Changelog = "https://github.com/ESI-FAR/tesops-electricity_nilm/CHANGELOG.md"
 
+[project.scripts]
+electricity = "electricity.electricity:train"
+
 [tool.setuptools.dynamic]
 dependencies = {file = ["requirements.txt"]}
 
