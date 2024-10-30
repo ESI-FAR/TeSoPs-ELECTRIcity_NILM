@@ -65,7 +65,7 @@ def train():
         x_max = trainer.x_max.detach().cpu().numpy()
         stats = (x_min, x_max)
     else:
-        raise ValueError("No normalization chosen")
+        raise ValueError("f'Invalid normalization option: {trainer.normalize}'")
 
     if args.dataset_code == "redd_lf":
         args.house_indicies = [1]
