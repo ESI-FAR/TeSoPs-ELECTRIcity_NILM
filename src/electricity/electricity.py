@@ -70,7 +70,7 @@ def train():
 
     dataloader = NILMDataloader(args, ds_parser)
     _, test_loader = dataloader.get_dataloaders()
-    mre, mae, acc, prec, recall, f1 = trainer.test(test_loader)
+    mre, mae, acc, _, _, f1 = trainer.test(test_loader)
     print("Mean Accuracy:", acc)
     print("Mean F1-Score:", f1)
     print("MAE:", mae)
