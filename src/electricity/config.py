@@ -6,50 +6,80 @@ from pyprojroot import here
 
 
 def get_args():
+    """Set up parser for command line arguments"""
+
     parser = argparse.ArgumentParser()
 
+    # dataset locations
     parser.add_argument("--redd_location", type=here, default=here("data/REDD"))
     parser.add_argument("--ukdale_location", type=here, default=here("data/UK_Dale"))
     parser.add_argument("--refit_location", type=here, default=here("data/Refit"))
+
+    # result location
     parser.add_argument("--export_root", type=here, default=here("results"))
 
+    # seed for various random-number-generators used
     parser.add_argument("--seed", type=int, default=0)
+
+    # which hardware to run on
     parser.add_argument("--device", type=str, default="cpu", choices=["cpu", "cuda"])
 
+    # dataset choice
     parser.add_argument("--dataset_code", type=str, default="refit", choices=["redd_lf", "uk_dale", "refit"])
+
+    # which houses' data to train on
     parser.add_argument("--house_indicies", nargs="+", default=[1, 2, 3, 4, 5])
 
+    # which appliances to train on
     # REDD Dataset appliance names:    'refrigerator', 'washer_dryer',   'microwave','dishwasher'
     # UK Dale Dataset appliance names: 'fridge',       'washing_machine','microwave','dishwasher','kettle','toaster'
     # Refit Dataset appliance names:    'Fridge,        'Washing_Machine','TV'
     parser.add_argument("--appliance_names", nargs="+", default=["Washing_Machine"])
 
+    # sampling rate of the data
     parser.add_argument("--sampling", type=str, default="6s")
+
+    # normalization method used before feeding the data to the model
     parser.add_argument("--normalize", type=str, default="mean", choices=["mean", "minmax", "none"])
 
-    parser.add_argument("--c0", type=dict, default=None)  # temperature value for objective function
+    # temperature value for objective function
+    parser.add_argument("--c0", type=dict, default=None)
+
+    # dict, format: {"appliance_name": value, ...}
+    # values higher than cutoff_value are ignored
     parser.add_argument("--cutoff", type=dict, default=None)
+    # values lower than threshold_value are ignored
     parser.add_argument("--threshold", type=dict, default=None)
+    # ignore events shorter than `min_on`
     parser.add_argument("--min_on", type=dict, default=None)
+    # ignore events spaced by times shorter than `min_off`
     parser.add_argument("--min_off", type=dict, default=None)
 
+    # data is analyzed in blocks of `window_size` data points
     parser.add_argument("--window_size", type=int, default=480)
+
+    # the analysis block is moved by `window_stride` before running again
     parser.add_argument("--window_stride", type=int, default=120)
+
+    # how much of the data is used for validation (0..1)
     parser.add_argument("--validation_size", type=float, default=0.1)
+
+    # how many data batches to run at once before re-training
     parser.add_argument("--batch_size", type=int, default=64)
 
+    # use pre-training or not
+    parser.add_argument("--pretrain", type=bool, default=True)
+
+    # specifying the network
     parser.add_argument("--output_size", type=int, default=1)
     parser.add_argument("--drop_out", type=float, default=0.1)
     parser.add_argument("--hidden", type=int, default=256)
     parser.add_argument("--heads", type=int, default=2)
     parser.add_argument("--n_layers", type=int, default=2)
-
-    parser.add_argument("--pretrain", type=bool, default=True)
     parser.add_argument("--mask_prob", type=float, default=0.25)
     parser.add_argument("--pretrain_num_epochs", type=int, default=10)
     parser.add_argument("--num_epochs", type=int, default=90)
     parser.add_argument("--tau", type=float, default=0.1)
-
     parser.add_argument("--optimizer", type=str, default="adam", choices=["sgd", "adam", "adamw"])
     parser.add_argument("--lr", type=float, default=1e-4)
     parser.add_argument("--enable_lr_schedule", type=bool, default=False)
@@ -59,6 +89,8 @@ def get_args():
 
     args = parser.parse_args()
 
+    # update args with detected or hard-coded values
+    # FIXME, see https://github.com/ESI-FAR/TeSoPs-ELECTRIcity_NILM/issues/66
     args = update_preprocessing_parameters(args)
     if torch.cuda.is_available():
         args.device = "cuda:0"
@@ -67,6 +99,7 @@ def get_args():
 
 
 def setup_seed(seed):
+    """Set seeds for random numbers in all used packages"""
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
     random.seed(seed)
@@ -77,6 +110,7 @@ def setup_seed(seed):
 
 
 def update_preprocessing_parameters(args):
+    """Update appliance settings based on dataset type"""
     if args.dataset_code == "redd_lf":
         args.cutoff = {
             "aggregate": 6000,

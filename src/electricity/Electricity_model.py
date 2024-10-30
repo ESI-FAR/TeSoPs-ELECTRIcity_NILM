@@ -7,6 +7,7 @@ from .model_helpers import TransformerBlock
 
 
 class TransformerModel(nn.Module):
+    """Define a Transformer neural network"""
     def __init__(self, args):
         super().__init__()
         self.args = args
@@ -75,6 +76,7 @@ class TransformerModel(nn.Module):
 
 
 class ELECTRICITY(nn.Module):
+    """Create a Generative Adversarial Networks (GAN), using `TransformerModel`s"""
     def __init__(self, args):
         super().__init__()
         self.Discriminator = TransformerModel(args)

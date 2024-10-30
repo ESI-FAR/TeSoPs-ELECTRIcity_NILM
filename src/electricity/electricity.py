@@ -1,3 +1,5 @@
+"""Main module for training a machine learning model"""
+
 import pickle as pkl
 from time import time
 import torch
@@ -18,8 +20,10 @@ def train():
     args = get_args()
     setup_seed(args.seed)
 
+    # set up logging with tensorboard
     writer = SummaryWriter()
 
+    # define which dataset and houses to train on
     if args.dataset_code == "redd_lf":
         args.house_indicies = [2, 3, 4, 5, 6]
         ds_parser = REDDParser(args)
@@ -31,20 +35,24 @@ def train():
         args.sampling = "7s"
         ds_parser = RefitParser(args)
 
+    # create the model
     model = ELECTRICITY(args)
 
+    # the trainer object contains the model and all the training logic
     trainer = Trainer(args, ds_parser, model)
 
     # Training Loop
     start_time = time()
     if args.num_epochs > 0:
         try:
+            # load a previously trained model, if one exists
             model.load_state_dict(torch.load(trainer.export_root / "best_acc_model.pth", map_location="cpu"))
             print("Successfully loaded previous model, continue training...")
         except FileNotFoundError:
             print("Failed to load old model, continue training new model...")
         trainer.train(writer)
 
+    # wrap up logging
     writer.flush()
     writer.close()
 
@@ -54,7 +62,7 @@ def train():
     print(f"Total Training Time: {training_time/60} minutes")
 
     # Testing Loop
-    args.validation_size = 1.0
+    args.validation_size = 1.0  # We test on the whole "unseen" dataset.
     x_mean = trainer.x_mean.detach().cpu().numpy()
     x_std = trainer.x_std.detach().cpu().numpy()
     stats = (x_mean, x_std)
@@ -76,6 +84,7 @@ def train():
     print("MAE:", mae)
     print("MRE:", mre)
 
+    # write out metadata for the trained model
     results = dict()
 
     results["args"] = args

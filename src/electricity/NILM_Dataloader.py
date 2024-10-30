@@ -7,6 +7,7 @@ class NILMDataloader:
         self.mask_prob = args.mask_prob
         self.batch_size = args.batch_size
 
+        # get correct datasets depending on the training mode
         if pretrain:
             self.train_dataset, self.val_dataset = ds_parser.get_pretrain_datasets(mask_prob=self.mask_prob)
         else:
